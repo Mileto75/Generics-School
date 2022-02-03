@@ -1,0 +1,42 @@
+﻿@page "/courses"
+
+@using Oe.Generics.School.Core.Entities
+@using Oe.Generics.School.Core.Services
+ 
+@inject ICourseService CourseService
+
+<h3>Lesmodules</h3>
+
+@if (courses ==null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Lokaal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in courses)
+            {
+                <tr>
+                    <td>@course.Name</td>
+                    <td>@course.Room.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Course> courses;
+
+    protected override void OnInitialized()
+    {
+        courses = CourseService.ListAll();
+    }
+}

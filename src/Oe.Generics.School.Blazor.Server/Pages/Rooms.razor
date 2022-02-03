@@ -1,0 +1,50 @@
+﻿@page "/rooms"
+
+@using Oe.Generics.School.Core.Entities
+@using Oe.Generics.School.Core.Services
+
+@inject IRoomService RoomService
+
+<h3>Lokalen</h3>
+
+@if (rooms == null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Capaciteit</th>
+                <th>Lessen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in rooms)
+            {
+                <tr>
+                    <td>@room.Name</td>
+                    <td>@room.Capacity</td>
+                    <td>
+                        @foreach (var course in room.Courses)
+                        {
+                            <span class="badge badge-primary mr-1">@course.Name</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Room> rooms;
+
+    protected override void OnInitialized()
+    {
+        rooms = RoomService.ListAll();
+    }
+
+}
